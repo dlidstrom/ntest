@@ -1,0 +1,6 @@
+64 3.2
+JA s26 0 0 0 0 1 1 -1 -1
+JA s26 0 0 0 0 1 1 -1 -1
+JA f8 0 0 0 0 1 1 -1 -1
+# coeff params black white black_rand white_rand show_book_black sbw ....
+# negamax showbook_info_me showbook_info_opponent

@@ -1,6 +1,7 @@
 syntax: glob
 
 Debug
+Release
 _ReSharper.othello
 *.user
 othello.gpState
