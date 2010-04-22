@@ -1,0 +1,46 @@
+<HTML>
+<HEAD>
+<META NAME="GENERATOR" Content="Microsoft Developer Studio">
+<META HTTP-EQUIV="Content-Type" content="text/html; charset=iso-8859-1">
+<TITLE>Prerequisites</TITLE>
+</HEAD>
+<BODY>
+
+<H1>Prerequisites</H1>
+
+<P>Before you use the ODK:</P>
+
+<H2>GGS</H2>
+
+<P>If you're not familiar with GGS, try it out.</P>
+<UL>
+<LI>Windows users use <A HREF="http://external.nj.nec.com/homepages/mic/Lion.zip">Lion</A></LI>
+<LI>Other users use <A HREF="http://external.nj.nec.com/homepages/mic/ggsa/ggsa.html">GGSA</A></LI>
+<LI>Very bold users can try <A HREF="telnet://external.nj.nec.com:5000">telnet</A></LI>
+</UL>
+<P>Play a game, for instance against ant. You will probably lose unless you are quite good.</P>
+
+<H2>Fix Visual C++ Compiler Bugs</H2>
+
+<P>The ODK shows up some Microsoft Visual C++ compiler bugs.
+Spend 5 minutes fixing them or hours
+tracking them down, the choice is yours.</P>
+
+<UL>
+<LI><A HREF="http://www.sirius.com/~ouchida/">Wayne Ouchidia's web page</A> seems to fix them.</LI>
+</UL>
+
+<H2>Know C++ and STL</H2>
+
+<P>The ODK uses the STL classes string and vector heavily,
+and map internally.</P>
+<P>If your program is in C, you need to convert it to C++. Remember that</P>
+<UL>
+<LI>There are subtle differences between the languages</LI>
+<LI>There are new reserved words in C++ like 'try' and 'this'.</LI>
+<LI>in GNU C you can link to an inline function defined in an external file.
+In C++ an inline function definition must be #included to call it.</LI>
+</UL>
+
+</BODY>
+</HTML>

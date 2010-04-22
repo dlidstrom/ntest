@@ -1,0 +1,41 @@
+<HTML>
+<HEAD>
+<META NAME="GENERATOR" Content="Microsoft Developer Studio">
+<META HTTP-EQUIV="Content-Type" content="text/html; charset=iso-8859-1">
+<TITLE>GNU C compilation</TITLE>
+</HEAD>
+<BODY>
+
+<H1>GNU C compilation</H1>
+
+<H2>Using Windows?</H2>
+
+<P>If you are using windows ODK expects _WIN32 to be defined (to get the correct sockets headers).
+GNU C may not define that automatically for windows executables, so you may need to include
+it in the compiler command line (is the command -D _WIN32?)
+<P>
+
+<H2>GNU C bugs</H2>
+
+<P>Gunnar had some problems with the header files. I think he was using Red Hat Linux on Windows. I will quote from him:</P>
+
+<BLOCKQUOTE><PRE>
+There were two issues; one of which was a function declared as
+
+  foo( int bar, fdset*, fdset* )
+
+(more or less), after removing "bar" it worked.  This looks like a
+bug in the headers - after all, they are designed to work with GCC.
+
+The other problem was that u_int wasn't defined for the particular
+combination of satisfied #ifdef conditions in the code.  This one
+might be possible to overcome by including some other header file
+that is known to declare u_int, or possibly by defining certain
+symbols (gcc -D_BSD_SOURCE and something more might do the trick).
+</PRE></BLOCKQUOTE>
+
+<P>[Presumably one could just typedef unsigned int u_int;
+to solve the second problem. - Chris]</P>
+
+</BODY>
+</HTML>
