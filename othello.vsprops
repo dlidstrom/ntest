@@ -14,10 +14,10 @@
 	/>
 	<UserMacro
 		Name="BOOST_INCLUDE_DIR"
-		Value="C:\boost_1_42_0"
+		Value="C:\Users\Daniel.SBG\Programming\boost_1_41_0"
 	/>
 	<UserMacro
 		Name="BOOST_LIB_DIR"
-		Value="C:\boost_1_42_0\stage\lib"
+		Value="C:\Users\Daniel.SBG\Programming\boost_1_41_0\stage\lib"
 	/>
 </VisualStudioPropertySheet>

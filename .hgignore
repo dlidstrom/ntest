@@ -1,0 +1,8 @@
+syntax: glob
+
+Debug
+_ReSharper.othello
+*.user
+othello.gpState
+othello.ncb
+othello.suo
