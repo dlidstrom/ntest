@@ -10,6 +10,7 @@
 #include "Log.h"
 #include "FetchCommand.h"
 #include "SyncCommand.h"
+#include "SyncCommand2.h"
 #include "Commands.h"
 #include "Book.h"
 #include "Player.h"
@@ -209,21 +210,17 @@ void UpdateStats(const std::string& clientName, std::size_t inc)
    out << total + inc;
 }
 
-void server_sync2(std::iostream& stream,
-                  CBook& computerBook,
-                  const int bounds,
-                  VariationCollection& variations,
-                  const std::size_t maxVariations,
-                  std::size_t& varToSend,
-                  bool isS26,
-                  const std::string& clientName)
+template<class SyncCommand>
+void server_sync_common(SyncCommand& syncCommand,
+                        std::iostream& stream,
+                        CBook& clientBook,
+                        CBook& computerBook,
+                        const int bounds,
+                        VariationCollection& variations,
+                        const std::size_t maxVariations,
+                        std::size_t& varToSend,
+                        const std::string& clientName)
 {
-   const std::string joinBook("Coefficients/join.book");
-   const std::string oldJoinBook = joinBook + ".old";
-   ::remove(oldJoinBook.c_str());
-   ::rename(joinBook.c_str(), oldJoinBook.c_str());
-   CBook clientBook(joinBook.c_str(), no_save);
-   SyncCommand syncCommand(clientBook);
    Log(std::cout)
       << "Receiving book..."
       << std::endl
@@ -277,6 +274,42 @@ void server_sync2(std::iostream& stream,
       // lines, which are probably mostly endsolve lines anyway
       varToSend = 5U;
    }
+}
+
+void server_sync2(std::iostream& stream,
+                  CBook& computerBook,
+                  const int bounds,
+                  VariationCollection& variations,
+                  const std::size_t maxVariations,
+                  std::size_t& varToSend,
+                  bool isS26,
+                  const std::string& clientName)
+{
+   const std::string joinBook("Coefficients/join.book");
+   const std::string oldJoinBook = joinBook + ".old";
+   ::remove(oldJoinBook.c_str());
+   ::rename(joinBook.c_str(), oldJoinBook.c_str());
+   CBook clientBook(joinBook.c_str(), no_save);
+   SyncCommand syncCommand(clientBook);
+   server_sync_common(syncCommand, stream, clientBook, computerBook, bounds, variations, maxVariations, varToSend, clientName);
+}
+
+void server_sync3(std::iostream& stream,
+                  CBook& computerBook,
+                  const int bounds,
+                  VariationCollection& variations,
+                  const std::size_t maxVariations,
+                  std::size_t& varToSend,
+                  bool isS26,
+                  const std::string& clientName)
+{
+   const std::string joinBook("Coefficients/join.book");
+   const std::string oldJoinBook = joinBook + ".old";
+   ::remove(oldJoinBook.c_str());
+   ::rename(joinBook.c_str(), oldJoinBook.c_str());
+   CBook clientBook(joinBook.c_str(), no_save);
+   SyncCommand2 syncCommand(clientBook);
+   server_sync_common(syncCommand, stream, clientBook, computerBook, bounds, variations, maxVariations, varToSend, clientName);
 }
 
 void server_merge(std::iostream& stream, const CBook& book)
@@ -364,7 +397,12 @@ int server(int server_port, CComputerDefaults cd1, int bounds, bool isS26)
          if( std::getline(stream, command) ) {
             boost::algorithm::trim(command);
             Log(std::cout) << "Received from client: " << command << std::endl;
-            if( command.substr(0, SYNC2_COMMAND.size())==SYNC2_COMMAND ) {
+            if( command.substr(0, SYNC3_COMMAND.size())==SYNC3_COMMAND ) {
+               std::string clientName = command.substr(SYNC3_COMMAND.size()+1);
+               server_sync3(stream, *bp, bounds, variations, maxVariations, varToSend, isS26, clientName);
+               stream.close();
+            }
+            else if( command.substr(0, SYNC2_COMMAND.size())==SYNC2_COMMAND ) {
                std::string clientName = command.substr(SYNC2_COMMAND.size()+1);
                server_sync2(stream, *bp, bounds, variations, maxVariations, varToSend, isS26, clientName);
                stream.close();

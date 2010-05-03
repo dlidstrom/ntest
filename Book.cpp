@@ -326,9 +326,13 @@ void CBookData::StoreLeaf(CHeightInfo hiNew, int nEmpty, CValue v, const CBoni& 
    }
 }
 
-void CBookData::StoreRoot(CHeightInfo hiNew, int nEmpty, CValue v,
-                          CValue vCutoff, bool fFull, const CBoni& boni) {
-
+void CBookData::StoreRoot(CHeightInfo hiNew,
+                          int nEmpty,
+                          CValue v,
+                          CValue vCutoff,
+                          bool fFull,
+                          const CBoni& boni)
+{
    // update the node if the new value is more important
    fRoot=true;
 
@@ -1117,26 +1121,28 @@ void CBook::JoinBook(const CBook& book2)
 
 void CBook::StoreLeaf(const CBitBoard& board, CHeightInfo hi, CValue value) {
    // calculate minimal reflection, nEmpty, fWLD
-   int nEmpty=CountBits(board.empty);
-   CBitBoard minReflection=board.MinimalReflection();
-   CBookData* bd=&(entries[nEmpty][minReflection]);
+   int nEmpty = CountBits(board.empty);
+   CBitBoard minReflection = board.MinimalReflection();
+   CBookData& bd = entries[nEmpty][minReflection];
 
    // assign value if we can, or mark unassigned if we should
    QSSERT(hi.Valid());
-   bd->StoreLeaf(hi, nEmpty, value, boni);
-   QSSERT(bd->Hi().height>0);
+   bd.StoreLeaf(hi, nEmpty, value, boni);
+   QSSERT(bd.Hi().height>0);
+   updated.push_back(std::make_pair(board, bd));
 }
 
 void CBook::StoreRoot(const CBitBoard& board, CHeightInfo hi, CValue value, CValue vCutoff, bool fFull) {
    // calculate minimal reflection, nEmpty, fWLD
-   int nEmpty=CountBits(board.empty);
-   CBitBoard minReflection=board.MinimalReflection();
-   CBookData* bd=&(entries[nEmpty][minReflection]);
+   int nEmpty = CountBits(board.empty);
+   CBitBoard minReflection = board.MinimalReflection();
+   CBookData& bd = entries[nEmpty][minReflection];
 
    // assign value if we can, or mark unassigned if we should
    QSSERT(hi.Valid());
-   bd->StoreRoot(hi, nEmpty, value, vCutoff, fFull, boni);
-   QSSERT(bd->Hi().height>0);
+   bd.StoreRoot(hi, nEmpty, value, vCutoff, fFull, boni);
+   QSSERT(bd.Hi().height>0);
+   updated.push_back(std::make_pair(board, bd));
 }
 
 bool CBook::SetBoni(const CBoni& aBoni) {
@@ -1517,8 +1523,7 @@ CBookPtr CBook::ExtractPositions(const VariationCollection& games) const
 {
    CBookPtr book(new CBook(0));
 
-   BOOST_FOREACH(const Variation& game, games)
-   {
+   foreach(const Variation& game, games) {
       std::stringstream stream;
       game.OutputGGF(stream);
       COsGame osGame;
@@ -1553,4 +1558,19 @@ std::size_t CBook::Positions() const
       nSize+=entries[nEmpties].size();
 
    return nSize;
+}
+
+CBookPtr CBook::GetAddedOrUpdated() const
+{
+   CBookPtr book(new CBook(0));
+
+   foreach( Updated::value_type entry, updated ) {
+      CBitBoard board = entry.first;
+      CBookData data = entry.second;
+      int empty = board.NEmpty();
+      CBitBoard minimal = board.MinimalReflection();
+      book->entries[empty][minimal] = data;
+   }
+
+   return book;
 }

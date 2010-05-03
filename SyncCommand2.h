@@ -6,12 +6,12 @@
 //! @file
 //! Brief.
 //! @author Daniel Lidstrom <daniel.lidstrom@sbg.se>
-//! @date   2010-04-06 11:13
+//! @date   2010-05-03 09:25
 //! @ingroup
 //!
 
-#if !defined(SYNCCOMMAND_H__20100406T1113)
-#define SYNCCOMMAND_H__20100406T1113
+#if !defined(SYNCCOMMAND2_H__20100503T0925)
+#define SYNCCOMMAND2_H__20100503T0925
 
 #include "Fwd.h"
 #include "Variation.h"
@@ -20,29 +20,38 @@
 
 //!
 //! @author  Daniel Lidstrom <daniel.lidstrom@sbg.se>
-//! @date    2010-04-06 11:13
+//! @date    2010-05-03 09:25
 //! @ingroup
 //! Brief.
 //!
-class SyncCommand
+class SyncCommand2
 {
 public:
 
-   SyncCommand(CBook& book);
+   SyncCommand2(CBook& book);
 
    //!
    //! Constructor.
    //!
-   SyncCommand(CBook& book, const VariationCollection& variations);
+   SyncCommand2(CBook& book, const VariationCollection& variations);
 
    template<class Archive>
-   void serialize(Archive& archive, const unsigned int version)
+   void save(Archive& archive, const unsigned int version) const
+   {
+      archive & *book.GetAddedOrUpdated();
+      archive & variations;
+   }
+
+   template<class Archive>
+   void load(Archive& archive, const unsigned int version)
    {
       archive & book;
       archive & variations;
    }
 
    const VariationCollection& GetVariations() const;
+
+   BOOST_SERIALIZATION_SPLIT_MEMBER();
 
 private:
 

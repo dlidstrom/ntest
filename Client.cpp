@@ -10,7 +10,7 @@
 #include "Log.h"
 #include "Commands.h"
 #include "FetchCommand.h"
-#include "SyncCommand.h"
+#include "SyncCommand2.h"
 #include "Variation.h"
 
 #include <boost/archive/binary_iarchive.hpp>
@@ -157,9 +157,9 @@ void client_sync(std::iostream& stream, const CBook& book)
       ;
 }
 
-void client_sync2(std::iostream& stream, const SyncCommand& syncCommand)
+void client_sync3(std::iostream& stream, const SyncCommand2& syncCommand)
 {
-   stream << SYNC2_COMMAND << " " << GetComputerNameAsString() << std::endl;
+   stream << SYNC3_COMMAND << " " << GetComputerNameAsString() << std::endl;
    boost::archive::binary_oarchive oa(stream);
    Log(std::cout)
       << "Sending book..."
@@ -231,7 +231,7 @@ int client(CComputerDefaults cd1,
       cerr << "ERR: You need a book to use Expand mode\n";
       return EXIT_FAILURE;
    }
-   std::tr1::shared_ptr<SyncCommand> syncCommand(new SyncCommand(*bp));
+   std::tr1::shared_ptr<SyncCommand2> syncCommand(new SyncCommand2(*bp));
 
    int success = EXIT_SUCCESS;
 
@@ -279,12 +279,12 @@ int client(CComputerDefaults cd1,
                } break;
                case FETCH2:
                {
-                  syncCommand.reset(new SyncCommand(*bp, client_fetch2(stream, *bp, lines_file).GetVariations()));
+                  syncCommand.reset(new SyncCommand2(*bp, client_fetch2(stream, *bp, lines_file).GetVariations()));
                } break;
                case SYNC:
                {
                   //client_sync(stream, *bp);
-                  client_sync2(stream, *syncCommand);
+                  client_sync3(stream, *syncCommand);
                   bp->Write();
                   const std::string bookname = bp->Bookname();
                   const std::string oldBookname = bookname+".old";

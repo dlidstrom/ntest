@@ -16,6 +16,7 @@
 const std::string IDENTITY_COMMAND = "identity";
 const std::string SYNC_COMMAND = "sync";
 const std::string SYNC2_COMMAND = "sync2";
+const std::string SYNC3_COMMAND = "sync3";
 const std::string FETCH_COMMAND = "fetch";
 const std::string FETCH2_COMMAND = "fetch2";
 const std::string MERGE_COMMAND = "merge";

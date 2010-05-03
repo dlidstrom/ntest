@@ -306,6 +306,7 @@ public:
    void Prune();
 
    CBookPtr ExtractPositions(const VariationCollection& games) const;
+   CBookPtr GetAddedOrUpdated() const;
 
    std::size_t Positions() const;
 
@@ -319,6 +320,8 @@ private:
    time_t tLastWrite;
    int nHashErr;
    /*const*/ bool save_when_closing;
+   typedef std::vector<std::pair<CBitBoard, CBookData> > Updated;
+   Updated updated;
 
    void AddData(CBitBoard bitboard, const CBookData& bd);
    void Init(const char* filename);

@@ -972,6 +972,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\SyncCommand2.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SyncCommand2.h"
+				>
+			</File>
+			<File
 				RelativePath="Test.cpp"
 				>
 				<FileConfiguration
