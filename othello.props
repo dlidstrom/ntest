@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="UserMacros">
+    <BOOST_INCLUDE_DIR>C:\Users\Daniel\Documents\Visual Studio 2010\boost_1_43_0</BOOST_INCLUDE_DIR>
+    <BOOST_LIB_DIR>C:\Users\Daniel\Documents\Visual Studio 2010\boost_1_43_0\stage\lib</BOOST_LIB_DIR>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <_PropertySheetDisplayName>Shared</_PropertySheetDisplayName>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(BOOST_INCLUDE_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(BOOST_LIB_DIR);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <BuildMacro Include="BOOST_INCLUDE_DIR">
+      <Value>$(BOOST_INCLUDE_DIR)</Value>
+    </BuildMacro>
+    <BuildMacro Include="BOOST_LIB_DIR">
+      <Value>$(BOOST_LIB_DIR)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

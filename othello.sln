@@ -1,7 +1,7 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual C++ Express 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "othello", "othello.vcproj", "{B8987522-EF22-4A08-92B0-3A9C717C3A30}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C++ Express 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "othello", "othello.vcxproj", "{B8987522-EF22-4A08-92B0-3A9C717C3A30}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

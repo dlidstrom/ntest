@@ -1,0 +1,366 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{e095d572-9328-4c00-977f-6cd490d401d9}</UniqueIdentifier>
+      <Extensions>.cpp</Extensions>
+    </Filter>
+    <Filter Include="GDK">
+      <UniqueIdentifier>{d0280227-e147-429e-8087-86c3a696a278}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="bbm.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="BitBoard.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="BitBoardBlock.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Book.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Cache.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Client.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="endgame.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Evaluator.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ExtractDraws.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ExtractLines.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="FastFlip.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="FastFlipPatterns.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="FastFlipTables.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="FetchCommand.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="flipfuncBB.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Games.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Log.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Moves.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MPCStats.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeStats.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ODKStream.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="off.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="off_dualuse.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="options.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Patterns.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Pos2.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Pos2Helpers.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PreCompile.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="QPosition.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Server.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SV.CPP">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SyncCommand.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SyncCommand2.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Test.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Ticks.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Timing.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="treedebug.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Variation.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GDK\AmsObjects.cpp">
+      <Filter>GDK</Filter>
+    </ClCompile>
+    <ClCompile Include="GDK\CksObjects.cpp">
+      <Filter>GDK</Filter>
+    </ClCompile>
+    <ClCompile Include="GDK\GGSMessage.cpp">
+      <Filter>GDK</Filter>
+    </ClCompile>
+    <ClCompile Include="GDK\GGSObjects.cpp">
+      <Filter>GDK</Filter>
+    </ClCompile>
+    <ClCompile Include="GDK\ggsstream.cpp">
+      <Filter>GDK</Filter>
+    </ClCompile>
+    <ClCompile Include="GDK\OsObjects.cpp">
+      <Filter>GDK</Filter>
+    </ClCompile>
+    <ClCompile Include="GDK\SGBase.cpp">
+      <Filter>GDK</Filter>
+    </ClCompile>
+    <ClCompile Include="GDK\SGMessages.cpp">
+      <Filter>GDK</Filter>
+    </ClCompile>
+    <ClCompile Include="GDK\SGObjects.cpp">
+      <Filter>GDK</Filter>
+    </ClCompile>
+    <ClCompile Include="GDK\sockbuf.cpp">
+      <Filter>GDK</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BitBoard.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="BitBoardBlock.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Book.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Cache.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Client.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Commands.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="endgame.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Evaluator.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="ExtractDraws.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="ExtractLines.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="FastFlip.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="FastFlipPatterns.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="FastFlipTables.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="FetchCommand.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="flipfuncBB.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Fwd.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Games.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Log.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Moves.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="MPCStats.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeStats.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="ODKStream.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="off.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="options.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Patterns.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Pos2.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Pos2All.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Pos2Helpers.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Pos2HelpersInline.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Pos2Inlines.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Pos2Internal.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="PreCompile.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="QPosition.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Server.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="SV.H">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="SyncCommand.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="SyncCommand2.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Test.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Timing.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="TreeDebug.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="unordered_map_serialization.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Variation.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="GDK\AmsObjects.h">
+      <Filter>GDK</Filter>
+    </ClInclude>
+    <ClInclude Include="GDK\CksObjects.h">
+      <Filter>GDK</Filter>
+    </ClInclude>
+    <ClInclude Include="GDK\GDKStream_T.h">
+      <Filter>GDK</Filter>
+    </ClInclude>
+    <ClInclude Include="GDK\GGSMessage.h">
+      <Filter>GDK</Filter>
+    </ClInclude>
+    <ClInclude Include="GDK\GGSObjects.h">
+      <Filter>GDK</Filter>
+    </ClInclude>
+    <ClInclude Include="GDK\ggsstream.h">
+      <Filter>GDK</Filter>
+    </ClInclude>
+    <ClInclude Include="GDK\OsObjects.h">
+      <Filter>GDK</Filter>
+    </ClInclude>
+    <ClInclude Include="GDK\SG.h">
+      <Filter>GDK</Filter>
+    </ClInclude>
+    <ClInclude Include="GDK\SG_T.h">
+      <Filter>GDK</Filter>
+    </ClInclude>
+    <ClInclude Include="GDK\SGBase.h">
+      <Filter>GDK</Filter>
+    </ClInclude>
+    <ClInclude Include="GDK\SGMessages.h">
+      <Filter>GDK</Filter>
+    </ClInclude>
+    <ClInclude Include="GDK\SGMessages_T.h">
+      <Filter>GDK</Filter>
+    </ClInclude>
+    <ClInclude Include="GDK\SGMessages_Templates.h">
+      <Filter>GDK</Filter>
+    </ClInclude>
+    <ClInclude Include="GDK\SGObjects.h">
+      <Filter>GDK</Filter>
+    </ClInclude>
+    <ClInclude Include="GDK\SGObjects_T.h">
+      <Filter>GDK</Filter>
+    </ClInclude>
+    <ClInclude Include="GDK\SGObjects_Templates.h">
+      <Filter>GDK</Filter>
+    </ClInclude>
+    <ClInclude Include="GDK\sockbuf.h">
+      <Filter>GDK</Filter>
+    </ClInclude>
+    <ClInclude Include="GDK\sockets.h">
+      <Filter>GDK</Filter>
+    </ClInclude>
+    <ClInclude Include="GDK\types.h">
+      <Filter>GDK</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="parameters.txt">
+      <Filter>Source</Filter>
+    </None>
+  </ItemGroup>
+</Project>
