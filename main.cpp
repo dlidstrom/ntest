@@ -302,7 +302,7 @@ int __cdecl main(int argc, char**argv, char**envp) {
          else {
             passw = "1KP1BLe";
          }
-         if( (!gs.Connect("bodo1.cs.ualberta.ca",5000) || !gs.Connect("localhost",5000))  &&
+         if( (!gs.Connect("skatgame.net",5000) || !gs.Connect("localhost",5000))  &&
              gs.Login(login,passw)==0) {
             gs.pComputer=computer1;
 
