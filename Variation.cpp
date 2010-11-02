@@ -96,7 +96,9 @@ bool Variation::operator <(const Variation& right) const
 
    int firstScore = sc1 + lengthFactor1*mImpl->moves.size();
    int secondScore = sc2 + lengthFactor2*right.mImpl->moves.size();
-   return firstScore<secondScore || (firstScore==secondScore && mImpl->moves<right.mImpl->moves);
+   return firstScore<secondScore
+      || (firstScore==secondScore && mImpl->moves.size()==right.mImpl->moves.size() && mImpl->moves<right.mImpl->moves)
+      || (firstScore==secondScore && mImpl->moves.size()<right.mImpl->moves.size());
 }
 
 bool Variation::operator==(const Variation& right) const

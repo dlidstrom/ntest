@@ -487,16 +487,16 @@ bool CSGGameBase::IAmPlaying(int iMover) const {
 }
 
 double CSGGameBase::TimeSinceLastMove() const {
-	double tT, tC;
+	double tC;
 
 	// clock() time is more accurate but may roll over. If it is close to time() time
 	//	send the clock() time
-	tT=time(NULL)-tLastMove;
+	time_t tT=time(NULL)-tLastMove;
 	tC=double(clock()-clockLastMove)/CLOCKS_PER_SEC;
 	if (fabs(tT-tC)<2)
 		return tC;
 	else
-		return tT;
+		return (double)tT;
 }
 
 void CSGGameBase::SetLastMoveTime() {
@@ -687,7 +687,7 @@ void CSGMoveListItem::In(istream& is) {
 }
 
 void CSGMoveListItem::Out(ostream& os) const {
-	int nPrecisionOld=os.precision(2);
+	std::streamsize nPrecisionOld=os.precision(2);
 	int fFlagsOld=os.setf(ios::fixed, ios::floatfield);
 
 	os << mv;
@@ -763,7 +763,7 @@ void CSGRating::In(istream& is) {
 }
 
 void CSGRating::Out(ostream& os) const {
-	int precision = os.precision(0);
+	std::streamsize precision = os.precision(0);
 	int flags = os.setf(ios::fixed, ios::floatfield);
 
 	os << setw(4) << dRating << "@" << setw(3) << dSD;

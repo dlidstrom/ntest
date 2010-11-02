@@ -94,9 +94,8 @@ bool CSV::Similar(int r1, int r2) const {
 }
 
 void CSV::CalcReflections() {
-   int i,r;
-
-   for (r=0; r<8; r++) {
+   std::size_t i;
+   for (std::size_t r=0; r<8; r++) {
       for (i=0; i<rs.size(); i++) {
          if (Similar(r,rs[i])) {
             if (ProperOrder(r,rs[i]))

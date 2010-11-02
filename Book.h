@@ -153,7 +153,7 @@ public:
       archive & fRoot;
    }
 
-protected:
+private:
    CHeightInfo hi;
    CValue cutoff;
    CBookValue values;
