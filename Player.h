@@ -103,10 +103,10 @@ inline istream& operator>>(istream& is, CComputerDefaults& cd) {
 }
 
 class CPlayerComputer : public CPlayer,
-                        public std::tr1::enable_shared_from_this<CPlayerComputer>
+                        public std::enable_shared_from_this<CPlayerComputer>
 {
 public:
-   std::tr1::weak_ptr<CBook> book;
+   std::weak_ptr<CBook> book;
    CEvaluator* eval;
    CCache *caches[2];
    bool fHasCachedPos[2];

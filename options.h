@@ -34,7 +34,7 @@ extern bool fPrintMPCStats;
 extern bool fPrintMoveSearch;
 extern bool fCompareMode;
 extern int treeNEmpty;
-extern std::tr1::weak_ptr<CBook> book;
+extern std::weak_ptr<CBook> book;
 
 // search parameters
 extern CCache* cache;

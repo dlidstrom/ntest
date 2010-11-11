@@ -8,7 +8,6 @@
 #include "Player.h"
 #include "Pos2.h"
 #include "Variation.h"
-#include <boost/foreach.hpp>
 
 int ExtractDraws(int argc,
                  char** argv,
@@ -23,7 +22,7 @@ int ExtractDraws(int argc,
 #else
    CPlayerPtr p0=GetPlayer(submode[0],cd1,cd2, false);
 #endif
-   CPlayerComputerPtr cp1 = std::tr1::dynamic_pointer_cast<CPlayerComputer>(p0);
+   CPlayerComputerPtr cp1 = std::dynamic_pointer_cast<CPlayerComputer>(p0);
    if( cp1 ) {
       VariationCollection variations = ExtractDraws(*cp1->book.lock());
 

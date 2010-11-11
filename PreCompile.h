@@ -11,6 +11,7 @@
 
 #include "GDK/types.h"
 #include <boost/unordered_set.hpp>
+#include <boost/foreach.hpp>
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
 #include <limits>

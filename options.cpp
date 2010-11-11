@@ -36,7 +36,7 @@ TMoveSignal moveSignalOpponent=kSignalStdin;
 bool fSolvedAreMinimal=true;
 
 // search parameters
-std::tr1::weak_ptr<CBook> book;
+std::weak_ptr<CBook> book;
 CCache* cache=0;
 CEvaluator* evaluate=0;
 CMPCStats* mpcs=0;

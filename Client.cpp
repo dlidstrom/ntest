@@ -17,7 +17,6 @@
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/asio.hpp>
-#include <boost/foreach.hpp>
 
 void expandLines(const std::string& lines_file,
                  CPlayerComputerPtr computer,
@@ -231,7 +230,7 @@ int client(CComputerDefaults cd1,
       cerr << "ERR: You need a book to use Expand mode\n";
       return EXIT_FAILURE;
    }
-   std::tr1::shared_ptr<SyncCommand2> syncCommand(new SyncCommand2(*bp));
+   std::shared_ptr<SyncCommand2> syncCommand(new SyncCommand2(*bp));
 
    int success = EXIT_SUCCESS;
 

@@ -26,9 +26,6 @@
 #include "Games.h"
 #include "Variation.h"
 
-#include <boost/unordered_set.hpp>
-#include <boost/array.hpp>
-#include <boost/foreach.hpp>
 #include <limits>
 #include <fstream>
 #include <algorithm>
@@ -2873,7 +2870,7 @@ namespace
          UndoMoveAndPassBB(move, nFlipped, ui, pass);
       }
 
-      BOOST_FOREACH(const MoveAndScore& moveAndScore, moveAndScores) {
+      foreach(const MoveAndScore& moveAndScore, moveAndScores) {
          CMove move = moveAndScore.second;
 #if defined(DEBUG_POS)
          std::string moveString = move;

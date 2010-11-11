@@ -200,7 +200,7 @@ int __cdecl main(int argc, char**argv, char**envp) {
          CPlayerPtr p1=GetPlayer(submode[1],cd1,cd2, false);
 #endif
 
-         if( CPlayerComputerPtr cp1 = std::tr1::dynamic_pointer_cast<CPlayerComputer>(p0) ) {
+         if( CPlayerComputerPtr cp1 = std::dynamic_pointer_cast<CPlayerComputer>(p0) ) {
             DrawCount dc = CountDraws(*cp1->book.lock(), std::cout);
          }
 

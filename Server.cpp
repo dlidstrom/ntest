@@ -369,7 +369,7 @@ void server_merge(std::iostream& stream, const CBook& book)
 }
 
 struct acceptor;
-typedef std::tr1::shared_ptr<acceptor> acceptor_ptr;
+typedef std::shared_ptr<acceptor> acceptor_ptr;
 
 struct acceptor
 {

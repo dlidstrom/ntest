@@ -5,7 +5,7 @@
 // Copying.txt and GPL.txt for details.
 //! @file   Variation.h
 //! Brief.
-//! @author Daniel Lidstrom <daniel.lidstrom@sbg.se>
+//! @author Daniel Lidstrom <dlidstrom@gmail.com>
 //! @date   2010-04-06 11:23
 //! @ingroup
 //!
@@ -18,7 +18,7 @@
 #include <iosfwd>
 
 //!
-//! @author  Daniel Lidstrom <daniel.lidstrom@sbg.se>
+//! @author  Daniel Lidstrom <dlidstrom@gmail.com>
 //! @date    2010-04-06 11:23
 //! @ingroup
 //! Brief.
@@ -44,7 +44,7 @@ struct Variation
    std::size_t Length() const;
 
    struct Impl;
-   std::tr1::shared_ptr<Impl> mImpl;
+   std::shared_ptr<Impl> mImpl;
 };
 
 void WriteVariations(const VariationCollection& variations, const char* filename);

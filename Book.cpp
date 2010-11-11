@@ -15,7 +15,6 @@
 #include "Variation.h"
 
 #include <boost/static_assert.hpp>
-#include <boost/foreach.hpp>
 
 #include <algorithm>
 #include <strstream>

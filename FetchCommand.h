@@ -5,7 +5,7 @@
 // Copying.txt and GPL.txt for details.
 //! @file
 //! Brief.
-//! @author Daniel Lidstrom <daniel.lidstrom@sbg.se>
+//! @author Daniel Lidstrom <dlidstrom@gmail.com>
 //! @date   2009-12-22 14:59
 //! @ingroup
 //!
@@ -19,7 +19,7 @@
 #include <vector>
 
 //!
-//! @author  Daniel Lidstrom <daniel.lidstrom@sbg.se>
+//! @author  Daniel Lidstrom <dlidstrom@gmail.com>
 //! @date    2009-12-22 14:59
 //! @ingroup
 //! Brief.

@@ -5,7 +5,7 @@
 // Copying.txt and GPL.txt for details.
 //! @file   Client.h
 //! Brief.
-//! @author Daniel Lidstrom <daniel.lidstrom@sbg.se>
+//! @author Daniel Lidstrom <dlidstrom@gmail.com>
 //! @date   2010-04-06 11:39
 //! @ingroup
 //!
@@ -16,7 +16,7 @@
 #include "Fwd.h"
 
 //!
-//! @author  Daniel Lidstrom <daniel.lidstrom@sbg.se>
+//! @author  Daniel Lidstrom <dlidstrom@gmail.com>
 //! @date    2010-04-06 11:39
 //! @ingroup
 //! Brief.
