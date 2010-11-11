@@ -2966,12 +2966,13 @@ void ExtractLines(const CBook& book, VariationCollection& variations, int bound,
    Initialize();
 
    VisitedBoards visitedBoards;
-   std::vector<CMove> variation;
-   CMove startMove("D3");
-   int nFlipped;
-   CUndoInfo ui;
-   MakeMoveBB(startMove.Square(), nFlipped, ui);
-   variation.push_back(startMove);
+   boost::array<CMove, 8> rawMoves = { "D3" };
+   std::vector<CMove> variation(rawMoves.begin(), rawMoves.end());
+   std::for_each(variation.begin(), variation.end(), [](CMove move) {
+      int nFlipped;
+      CUndoInfo ui;
+      MakeMoveBB(move.Square(), nFlipped, ui);
+   });
    const CBookData* bd = book.FindAnyReflection(bb);
    ExtractLines(book, visitedBoards, variations, variation, bound, 0
 #if defined(DEBUG_POS)
