@@ -123,6 +123,11 @@ bool Variation::IsDraw() const
    return mImpl->delta==0 && mImpl->bestScore == 0;
 }
 
+std::size_t Variation::Length() const
+{
+   return mImpl->moves.size();
+}
+
 std::ostream& operator<<(std::ostream& out, const Variation& v)
 {
    out << std::setw(4) << v.mImpl->delta << "/" << std::setw(4) << v.mImpl->bestScore;

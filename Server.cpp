@@ -22,6 +22,7 @@
 #include <boost/circular_buffer.hpp>
 #include <boost/format.hpp>
 #include <boost/algorithm/string/trim.hpp>
+#include <functional>
 
 struct is_drawn : public std::unary_function<Variation, bool>
 {
@@ -47,18 +48,55 @@ struct is_in
    }
 };
 
+std::pair<double, double> StandardDeviation(VariationCollection::const_iterator begin, VariationCollection::const_iterator end)
+{
+   double sum = 0;
+   std::for_each(begin, end, [&sum](const Variation& variation) {
+      sum += variation.Length();
+   });
+   double mean = sum / std::distance(begin, end);
+
+   double variance = 0;
+   std::for_each(begin, end, [mean,&variance](const Variation& variation) {
+      variance += (mean - variation.Length()) * (mean - variation.Length());
+   });
+
+   double deviation = std::sqrt(variance / (std::distance(begin, end) - 1));
+   return std::make_pair(mean, deviation);
+}
+
 void extractVariations(CBook& book,
                        const int bounds,
                        VariationCollection& variations,
-                       const std::size_t maxVariations)
+                       const std::size_t maxVariations,
+                       const std::size_t startCount)
 {
    variations.clear();
    ExtractLines(book, variations, bounds, maxVariations);
-   int drawnVariations
+   std::size_t drawnVariations
       = std::count_if(variations.begin(), variations.end(), is_drawn());
+   const std::size_t keep = 30 * startCount;
    // keep the draws when there are 150 or more
-   if( drawnVariations>=150 ) {
+   if( drawnVariations>=keep ) {
       variations.erase(variations.begin()+drawnVariations, variations.end());
+   }
+   // if lines vary too much in length, keep first 150
+   else {
+      std::pair<double, double> mean = StandardDeviation(variations.begin(), variations.begin()+std::min(keep, variations.size()));
+      Log(std::cout)
+         << boost::format("Mean@Deviation = %1$.02f@%2$.02f") % mean.first % mean.second
+         << std::endl
+         ;
+      if( mean.second>2 && variations.size()>keep ) {
+         std::size_t n_first = std::min(keep, variations.size());
+         Log(std::cout)
+            << "Prioritizing first "
+            << n_first
+            << " lines."
+            << std::endl
+            ;
+         variations.erase(variations.begin()+n_first, variations.end());
+      }
    }
    WriteVariations(variations, "variations.txt");
 }
@@ -130,6 +168,7 @@ void server_sync(std::iostream& stream,
                  const int bounds,
                  VariationCollection& variations,
                  const std::size_t maxVariations,
+                 const std::size_t startCount,
                  std::size_t& varToSend,
                  bool isS26)
 {
@@ -180,7 +219,7 @@ void server_sync(std::iostream& stream,
    if( variations.size()<varToSend ) {
       int searches;
       computerBook.CorrectAll(searches);
-      extractVariations(computerBook, bounds, variations, maxVariations);
+      extractVariations(computerBook, bounds, variations, maxVariations, startCount);
       // adjust varToSend to allow faster processing of first few
       // lines, which are probably mostly endsolve lines anyway
       varToSend = 5U;
@@ -270,7 +309,7 @@ void server_sync_common(SyncCommand& syncCommand,
    if( variations.size()<varToSend ) {
       int searches;
       computerBook.CorrectAll(searches);
-      extractVariations(computerBook, bounds, variations, maxVariations);
+      extractVariations(computerBook, bounds, variations, maxVariations, startCount);
       // adjust varToSend to allow faster processing of first few
       // lines, which are probably mostly endsolve lines anyway
       varToSend = startCount;
@@ -371,7 +410,7 @@ int server(int server_port, CComputerDefaults cd1, int bounds, bool isS26)
    // try to keep maxVariations 30 times varToSend, or more
    std::size_t maxVariations = 30*varToSend;
    VariationCollection variations;
-   extractVariations(*bp, bounds, variations, maxVariations);
+   extractVariations(*bp, bounds, variations, maxVariations, startCount);
 
    // this timer is used to control fetch&sync times, not too often
    // and not too seldom
@@ -413,7 +452,7 @@ int server(int server_port, CComputerDefaults cd1, int bounds, bool isS26)
                stream.close();
             }
             else if( command.substr(0, SYNC_COMMAND.size())==SYNC_COMMAND ) {
-               server_sync(stream, *bp, bounds, variations, maxVariations, varToSend, isS26);
+               server_sync(stream, *bp, bounds, variations, maxVariations, startCount, varToSend, isS26);
                stream.close();
             }
             else if( command.substr(0, FETCH2_COMMAND.size())==FETCH2_COMMAND ) {
@@ -423,9 +462,9 @@ int server(int server_port, CComputerDefaults cd1, int bounds, bool isS26)
                if( variations.size()<varToSend ) {
                   int searches;
                   bp->CorrectAll(searches);
-                  extractVariations(*bp, bounds, variations, maxVariations);
+                  extractVariations(*bp, bounds, variations, maxVariations, startCount);
                   if( increaseStartCount )
-                     startCount = std::max(startCount + 2., startCount * 1.1);
+                     startCount = (std::size_t)std::max(startCount + 2., startCount * 1.1);
                   else
                      startCount = std::max(5U, startCount - 2);
                   Log(std::cout) << "Start count adjusted to " << startCount << std::endl;

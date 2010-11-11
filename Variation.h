@@ -41,6 +41,8 @@ struct Variation
 
    bool IsDraw() const;
 
+   std::size_t Length() const;
+
    struct Impl;
    std::tr1::shared_ptr<Impl> mImpl;
 };
