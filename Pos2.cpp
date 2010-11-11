@@ -2966,7 +2966,7 @@ void ExtractLines(const CBook& book, VariationCollection& variations, int bound,
    Initialize();
 
    VisitedBoards visitedBoards;
-   boost::array<CMove, 8> rawMoves = { "D3" };
+   boost::array<CMove, 1> rawMoves = { "D3" };
    std::vector<CMove> variation(rawMoves.begin(), rawMoves.end());
    std::for_each(variation.begin(), variation.end(), [](CMove move) {
       int nFlipped;
