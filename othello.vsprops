@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="windows-1250"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="Shared"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="$(BOOST_INCLUDE_DIR)"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalLibraryDirectories="$(BOOST_LIB_DIR)"
+	/>
+	<UserMacro
+		Name="BOOST_INCLUDE_DIR"
+		Value="C:\Users\Daniel.SBG\Programming\boost_1_41_0"
+	/>
+	<UserMacro
+		Name="BOOST_LIB_DIR"
+		Value="C:\Users\Daniel.SBG\Programming\boost_1_41_0\stage\lib"
+	/>
+</VisualStudioPropertySheet>

@@ -1,0 +1,11 @@
+syntax: glob
+
+Debug
+Release
+_ReSharper.othello
+*.user
+othello.gpState
+othello.ncb
+othello.suo
+othello.sdf 
+othello.opensdf 

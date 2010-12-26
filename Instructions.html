@@ -1,0 +1,239 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="Author" CONTENT="welty">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.05 [en] (WinNT; I) [Netscape]">
+   <TITLE>Ntest instructions</TITLE>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFC0" LINK="#0000FF" VLINK="#800080" ALINK="#FF00FF">
+
+<H2>
+Installation</H2>
+ntest was not designed to be easy to use. Sorry.
+<P>ntest needs to go in the directory c:\devl\othello. unzip it there and make sure everything is in the proper
+subdirectory.
+<P>
+Ntest ships without a book as I don't have the webspace for the 35+MB book. You can generate one yourself.
+Ntest self-plays at level s26 to generate its book; adjust this higher or lower depending on how much time you
+would like to spend per game.
+<P>You need to edit the file parameters.txt for each computer. The format
+of the first line is
+<BR>&lt;RAM for hashtable in MB>&nbsp; &lt;speed of computer in GHz>
+<BR>I use 70MB hashtable on a 128 MB machine and 7MB hashtable on a 64MB
+machine. If the hard drive starts thrashing, you've set it too high.
+<H3>
+Setting up Computer 1 and 2</H3>
+ntest now has 2 computer player slots, so you can play different books
+against each other. To specify parameters for computers 1 and 2, you edit
+the second and third line of params.txt. An example line looks like this:
+
+<P>JA s21 100 -100 0 0 1 1 -1 -1
+
+<P>The parameters are, in order,
+<H4>
+coefficient set</H4>
+JA currently.
+<H4>
+search params</H4>
+see search params, below
+<H4>
+blackDrawValue, whiteDrawValue</H4>
+In the example, the black draw value is +100 discs (black seeks draws)
+and the white draw value is -100 discs (white avoids draws). Another popular
+value is 0, which is the way wzebra works. (Full-strength Zebra has black
+seeks/avoids draws options just like ntest).
+<H4>
+blackRand, whiteRand</H4>
+These both use my screwy rand system where randomness is 2<SUP>rand</SUP>
+discs, so 0 means 1 disc randomness.
+<H4>
+book flag</H4>
+if set to 0, the computer will play without using a book (and will not
+add the games to book).
+<H4>
+negamax flag</H4>
+if set to 1, the computer will check its book for transpositions when it
+loads it.
+<H4>
+display book values for me, opponent</H4>
+if set to 0, will display no book info. -1 to display all info.
+<H2>
+Running Ntest</H2>
+the command line is
+<BR>ntest &lt;mode> &lt;search params> &lt;# games> &lt;opening>
+<H3>
+mode</H3>
+
+<H4>
+[g]ame mode</H4>
+'g' mode plays a game or series of games.
+<BR>The first character after the 'g' is the black player: 'h' for human,
+'1' for computer 1, '2' for computer 2.
+<BR>The second character after the 'g' is the white player.
+<BR>You may append a '*' to have the players alternate colors (if they
+are playing more than one game).
+
+<P>Examples:
+<BR>&nbsp;
+<TABLE BORDER >
+<TR>
+<TD>gh2</TD>
+
+<TD>&nbsp;human plays black, computer2 plays white</TD>
+</TR>
+
+<TR>
+<TD>g11</TD>
+
+<TD>self-play computer1</TD>
+</TR>
+
+<TR>
+<TD>g12*</TD>
+
+<TD>play computer1 vs computer2, alternating colors</TD>
+</TR>
+</TABLE>
+
+<H4>
+[G]ame+ edmund mode</H4>
+'G' mode is like 'g' mode, but the game is edmundized while it is being
+added to book (see mode 'e' below for a description). Unlike edmund mode
+you do not need to negamax the book after using this mode.
+<H4>
+[a]nalyze mode</H4>
+'a' mode analyzes a game or series of games and adds it/them to computer
+1's book.
+<BR>The character after the 'a' is the type of game:
+<BR>&nbsp;
+<TABLE BORDER >
+<TR>
+<TD>g</TD>
+
+<TD>GGF games</TD>
+</TR>
+
+<TR>
+<TD>i</TD>
+
+<TD>IOS games</TD>
+</TR>
+
+<TR>
+<TD>0,1,2</TD>
+
+<TD>ntest file format 0, 1, or 2</TD>
+</TR>
+
+<TR>
+<TD>l</TD>
+
+<TD>logbook games</TD>
+</TR>
+
+<TR>
+<TD>k</TD>
+
+<TD>log/kitty games</TD>
+</TR>
+</TABLE>
+For all game types except k, the games are read from standard input. In
+game type k the games are read from d:\allinfo.oko.
+<H4>
+[A]nalyze+edmund mode</H4>
+'A' mode is like 'a' mode but edmundizes each game after it is added to
+book. (see mode 'e' below for a description). Unlike edmund mode you do
+not need to negamax the book after using this mode.
+
+<P>If your games include multiple well-played variations in the probable
+solver (e.g. draws.ggf) it is probably faster to run mode 'a', mode 'e',
+and then mode 'n' than to use this mode. Otherwise this mode is probably
+faster.
+<H4>
+[n]egamax mode</H4>
+Checks computer 1's book for transpositions. This is done automatically
+anyway if the negamax flag is set in parameters.txt.
+<H4>
+[e]dmund mode</H4>
+Checks computer 1's book for Edmund nodes. These are probable solve nodes
+where the best deviation is better than the best played line in the WLD
+sense. It then plays a game from each of the found Edmund nodes. Note that
+this process of playing new games can create new Edmund nodes, so running
+this mode more than once in succession will usually have benefits.
+
+<P>It is strongly recommended that you negamax the book before and after
+running this mode (setting the negamax flag for computer1 in params.txt
+will do this).
+<H4>
+[p]osvalues mode</H4>
+Calculates values for captured.pos using computer 1 and stores the result
+in captured.pv. Will try to start where it left off if you use 'pa' instead
+of 'p'.
+<H3>
+search params override for computer 1 (optional)</H3>
+If no search params are specified, the search depth for computer 1 is taken
+from parameters.txt.
+<BR>&nbsp;
+<TABLE BORDER CELLSPACING=3 CELLPADDING=3 >
+<TR>
+<TD>s&lt;depth></TD>
+
+<TD>selective search to &lt;depth> in midgame; higher in endgame</TD>
+</TR>
+
+<TR>
+<TD>f&lt;depth></TD>
+
+<TD>like s but different endgame depths</TD>
+</TR>
+
+<TR>
+<TD>a&lt;seconds>&nbsp;
+<BR>[;&lt;WLD depth>]</TD>
+
+<TD>spend &lt;seconds> each search on 'a'verage.Optionally force WLD solve
+at a given depth</TD>
+</TR>
+
+<TR>
+<TD>m&lt;minutes></TD>
+
+<TD>take a maximum of &lt;minutes> per game ('m'atch time)</TD>
+</TR>
+</TABLE>
+
+<H3>
+# games (optional):</H3>
+only used in game mode. Ntest will save its book every so often, so you
+can kill the program (control-c) and not lose the whole book.
+<H3>
+opening&nbsp; (optional):</H3>
+filename containing a GGF file with an opening. If specified, games will
+start from the final position in the first game of the GGF file. Otherwise
+games start from the standard starting position.
+<H2>
+Notes</H2>
+1. MPC stats are only calculated to height 25. Therefore performance deteriorates
+slightly with search depth > 26 and probably a lot with search depth > 28.
+
+<P>2. Each &lt;search depth> gets its own book. You can rename the books
+(e.g. rename the book, play a game at match time, then rename the book
+back). If you rename a fixed-ply book and make it deeper, the program will
+reevaluate all book positions at the deeper depth next time it starts up.
+So I never do this, except from/to match time.
+
+<P>3. When playing as human type '?' for a current list of cheat codes.
+There aren't many, but the "load" and "save" will save in GGF format for
+an opening file or for review in Lion.
+
+<P>4. You can have the computer force a specific opening (or openings).
+The file "black.ggf" (in the directory where you typed the command to
+start the program) contains one or more openings the computer will play
+as black. The file "white.ggf" contains the openings the computer will
+play as white.
+
+<H2>
+Copyright</H2>
+Chris Welty 1999-2003. This program is distributed under the GPL.
+</BODY>
+</HTML>
