@@ -2806,7 +2806,7 @@ DrawCount GetDrawCount(CBitBoard board)
 
 namespace
 {
-   typedef boost::unordered_set<CBitBoard> VisitedBoards;
+   typedef boost::unordered_map<CBitBoard, int> VisitedBoards;
 
    struct sort_on_first
    {
@@ -2833,6 +2833,19 @@ namespace
 #endif
                      )
    {
+      // check if we have visited this position before (transposition)
+      // need to re-evaluate subtree if parent delta is less this time
+      auto it = visitedBoards.find(bb.MinimalReflection());
+      if( it!=visitedBoards.end() ) {
+         int oldDelta = it->second;
+         if( oldDelta<=parentDelta )
+            return;
+         it->second = std::min(it->second, parentDelta);
+      }
+      else {
+         visitedBoards[bb.MinimalReflection()] = parentDelta;
+      }
+
 #if defined(DEBUG_POS)
       if( debugLine.substr(0, currentLine.size())!=currentLine )
          return;
@@ -2842,8 +2855,6 @@ namespace
       bb.CalcMoves(moves);
       int vContempt = 0;
 
-      visitedBoards.insert(bb.MinimalReflection());
-
       typedef std::pair<int, CMove> MoveAndScore;
       typedef std::vector<MoveAndScore> TempVariations;
 
@@ -2851,7 +2862,8 @@ namespace
       TempVariations moveAndScores;
       int bestScore = std::numeric_limits<int>::min();
 
-      while(moves.GetNext(move)) {
+      // find best score
+      while( moves.GetNext(move) ) {
 #if defined(DEBUG_POS)
          std::string moveString = move;
 #endif
@@ -2877,74 +2889,48 @@ namespace
 #endif
          int value = moveAndScore.first;
          int delta = parentDelta + (bestScore-value);
-         int nFlipped;
-         CUndoInfo ui;
-         int pass;
-         MakeMoveAndPassBB(move, nFlipped, ui, pass);
-         if( visitedBoards.find(bb.MinimalReflection())==visitedBoards.end() ) {
+         if( delta<=bound ) {
+            int nFlipped;
+            CUndoInfo ui;
+            int pass;
+            MakeMoveAndPassBB(move, nFlipped, ui, pass);
             const CBookData* bd = book.FindAnyReflection(bb);
 
-            if( delta<=bound && value<=bound ) {
-               CMove oneSuccessorMove;
-               int successors = CountSuccessors(book, oneSuccessorMove);
-               if( successors<=1 ) {
-                  if( !bd->IsSolved() ) {
-                     if( successors==1 ) {
-                        // check if the next position is unsolved
-                        int nFlipped2;
-                        CUndoInfo ui2;
-                        int pass2;
-                        MakeMoveAndPassBB(oneSuccessorMove, nFlipped2, ui2, pass2);
-                        assert(book.FindAnyReflection(bb));
-                        if( !book.FindAnyReflection(bb)->IsSolved() ) {
-                           variation.push_back(move);
-                           variation.push_back(oneSuccessorMove);
-                           variations.push_back(Variation(delta, bestScore, variation));
-                           variation.pop_back();
-                           variation.pop_back();
-                        }
-                        UndoMoveAndPassBB(move, nFlipped2, ui2, pass2);
-                     }
-                     else {
-                        tempVariations.push_back(std::make_pair(delta, move));
-                     }
+            CMove oneSuccessorMove;
+            int successors = CountSuccessors(book, oneSuccessorMove);
+            if( successors<=1 && !bd->IsSolved() ) {
+               if( successors==1 ) {
+                  // check if the next position is unsolved
+                  int nFlipped2;
+                  CUndoInfo ui2;
+                  int pass2;
+                  MakeMoveAndPassBB(oneSuccessorMove, nFlipped2, ui2, pass2);
+                  assert(book.FindAnyReflection(bb));
+                  if( !book.FindAnyReflection(bb)->IsSolved() ) {
+                     variation.push_back(move);
+                     variation.push_back(oneSuccessorMove);
+                     variations.push_back(Variation(delta, bestScore, variation));
+                     variation.pop_back();
+                     variation.pop_back();
                   }
-                  else if( false && bb.NEmpty()>24 && bd->Values().Draw() && delta==0 ) {
-                     // if this line is prematurely solved (too many empties)
-                     // expand it as well
-                     /*                  CMove move2;
-                     CMoves moves2;
-                     bb.CalcMoves(moves2);
-                     bool foundSuccessor = false;
-                     while(moves2.GetNext(move2) && !foundSuccessor) {
-                     #if defined(_DEBUG)
-                     std::string moveString2 = move2;
-                     #endif
-                     int nFlipped2;
-                     CUndoInfo ui2;
-                     int pass2;
-                     MakeMoveAndPassBB(move2, nFlipped2, ui2, pass2);
-                     foundSuccessor = book.FindAnyReflection(bb)!=0;
-                     UndoMoveAndPassBB(move2, nFlipped2, ui2, pass2);
-                     }
-                     if( !HasSuccessor(book) ) {
-                        tempVariations.push_back(std::make_pair(delta, move));
-                     }*/
-                  }
+                  UndoMoveAndPassBB(move, nFlipped2, ui2, pass2);
                }
-               variation.push_back(move);
-               ExtractLines(book, visitedBoards, variations, variation, bound, delta
-#if defined(DEBUG_POS)
-                  ,
-                  currentLine + moveString,
-                  debugLine
-#endif
-                  );
-               variation.pop_back();
+               else {
+                  tempVariations.push_back(std::make_pair(delta, move));
+               }
             }
-         }
+            variation.push_back(move);
+            ExtractLines(book, visitedBoards, variations, variation, bound, delta
+#if defined(DEBUG_POS)
+               ,
+               currentLine + moveString,
+               debugLine
+#endif
+               );
+            variation.pop_back();
 
-         UndoMoveAndPassBB(move, nFlipped, ui, pass);
+            UndoMoveAndPassBB(move, nFlipped, ui, pass);
+         }
       }
 
       foreach(const MoveAndScore& moveAndScore, tempVariations) {
@@ -2962,8 +2948,9 @@ void ExtractLines(const CBook& book, VariationCollection& variations, int bound,
    std::cout << "Extracting lines..." << std::endl;
    Initialize();
 
-   VisitedBoards visitedBoards;
+   // 9930
    boost::array<CMove, 1> rawMoves = { "D3" };
+   //boost::array<CMove, 1> rawMoves = { "D3" };
    std::vector<CMove> variation(rawMoves.begin(), rawMoves.end());
    std::for_each(variation.begin(), variation.end(), [](CMove move) {
       int nFlipped;
@@ -2971,10 +2958,11 @@ void ExtractLines(const CBook& book, VariationCollection& variations, int bound,
       MakeMoveBB(move.Square(), nFlipped, ui);
    });
    const CBookData* bd = book.FindAnyReflection(bb);
+   VisitedBoards visitedBoards;
    ExtractLines(book, visitedBoards, variations, variation, bound, 0
 #if defined(DEBUG_POS)
       , "D3",
-      "D3C3C4E3D2B4B3D1F4F5F2F3E1F1E2C6D6E6E7F6C5C1A4E8F7C7G5B5G6B6C2"
+      "D3C3C4E3F4D6C6F5F3G4D2B4B5C2A4G3E2C1"
 #endif
       );
    {
