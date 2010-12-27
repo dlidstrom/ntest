@@ -290,7 +290,7 @@ void server_sync_common(SyncCommand& syncCommand,
       ;
    // save book
    computerBook.Mirror();
-   UpdateStats(clientName, positionsAfterMerge - positionsBeforeMerge);
+   UpdateStats(clientName, positionsAfterMerge > positionsBeforeMerge ? positionsAfterMerge - positionsBeforeMerge : 0);
    // filter variations, remove those that are in book already
    VariationCollection::iterator it
       = std::remove_if(variations.begin(),
