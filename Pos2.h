@@ -180,13 +180,9 @@ typedef boost::unordered_map<CBitBoard, DrawCount> Draws;
 
 class CGame;
 
-DrawCount CountDraws(const CBook& book,
-                     std::ostream& out);
+DrawCount CountDraws(const CBook& book, std::ostream& out);
 DrawCount GetDrawCount(CBitBoard board);
-void ExtractLines(const CBook& book,
-                  VariationCollection& variations,
-                  int bound,
-                  std::size_t maxSize=std::numeric_limits<std::size_t>::max());
+void ExtractLines(const CBook& book, VariationCollection& variations, int bound);
 void ExpandLine(const std::vector<CMove>& moves);
 VariationCollection ExtractDraws(const CBook& book);
 

@@ -61,7 +61,7 @@ std::pair<double, double> StandardDeviation(VariationCollection::const_iterator 
       variance += (mean - variation.Length()) * (mean - variation.Length());
    });
 
-   double deviation = std::sqrt(variance / (std::distance(begin, end) - 1));
+   double deviation = std::sqrt(variance / std::max(1, std::distance(begin, end) - 1));
    return std::make_pair(mean, deviation);
 }
 
@@ -71,22 +71,24 @@ void extractVariations(CBook& book,
                        const std::size_t maxVariations,
                        const std::size_t startCount)
 {
+   const std::size_t keep = 30 * startCount;
    variations.clear();
-   ExtractLines(book, variations, bounds, maxVariations);
+   ExtractLines(book, variations, bounds);
+   std::pair<double, double> mean = StandardDeviation(variations.begin(), variations.begin()+std::min(keep, variations.size()));
+   Log(std::cout)
+      << boost::format("Mean@Deviation = %1$.02f@%2$.02f") % mean.first % mean.second
+      << std::endl
+      ;
    std::size_t drawnVariations
       = std::count_if(variations.begin(), variations.end(), is_drawn());
-   const std::size_t keep = 30 * startCount;
    // keep the draws when there are 150 or more
    if( drawnVariations>=keep ) {
       variations.erase(variations.begin()+drawnVariations, variations.end());
    }
-   // if lines vary too much in length, keep first 150
    else {
-      std::pair<double, double> mean = StandardDeviation(variations.begin(), variations.begin()+std::min(keep, variations.size()));
-      Log(std::cout)
-         << boost::format("Mean@Deviation = %1$.02f@%2$.02f") % mean.first % mean.second
-         << std::endl
-         ;
+      variations.erase(variations.begin()+std::min(maxVariations, variations.size()),
+                       variations.end());
+      // if lines vary too much in length, keep first 150
       if( mean.second>2 && variations.size()>keep ) {
          std::size_t n_first = std::min(keep, variations.size());
          Log(std::cout)
@@ -98,6 +100,7 @@ void extractVariations(CBook& book,
          variations.erase(variations.begin()+n_first, variations.end());
       }
    }
+
    WriteVariations(variations, "variations.txt");
 }
 
