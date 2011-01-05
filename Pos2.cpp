@@ -2943,7 +2943,7 @@ namespace
 
 #define STARTMOVE 4,5	// E6
 
-void ExtractLines(const CBook& book, VariationCollection& variations, int bound, std::size_t maxSize)
+void ExtractLines(const CBook& book, VariationCollection& variations, int bound)
 {
    std::cout << "Extracting lines..." << std::endl;
    Initialize();
@@ -2978,10 +2978,6 @@ void ExtractLines(const CBook& book, VariationCollection& variations, int bound,
    }
    if( variations.empty() ) {
       variations.push_back(Variation(0, 0, variation));
-   }
-   else {
-      variations.erase(variations.begin()+std::min(maxSize, variations.size()),
-                       variations.end());
    }
 }
 
