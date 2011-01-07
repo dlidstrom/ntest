@@ -79,8 +79,11 @@ void Variation::PlayMoves(CGame& game) const
 
 bool Variation::operator <(const Variation& right) const
 {
-   int sc1 = mImpl->delta;
-   int sc2 = right.mImpl->delta;
+   int scoreFactor1 = Length()>=23 ? 2 : 1;
+   int scoreFactor2 = right.Length()>=23 ? 2 : 1;
+
+   int sc1 = scoreFactor1*mImpl->delta;
+   int sc2 = scoreFactor2*right.mImpl->delta;
 
    int lengthFactor1 = 5;
    int lengthFactor2 = 5;
