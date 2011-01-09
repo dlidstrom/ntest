@@ -2826,7 +2826,7 @@ namespace
                      std::vector<CMove>& variation,
                      const int bound,
                      const int parentDelta
-#if defined(DEBUG_POS)
+#if defined(_DEBUG) && defined(DEBUG_POS)
                      ,
                      std::string currentLine,
                      const std::string& debugLine
@@ -2846,7 +2846,7 @@ namespace
          visitedBoards[bb.MinimalReflection()] = parentDelta;
       }
 
-#if defined(DEBUG_POS)
+#if defined(_DEBUG) && defined(DEBUG_POS)
       if( debugLine.substr(0, currentLine.size())!=currentLine )
          return;
 #endif
@@ -2864,13 +2864,15 @@ namespace
 
       // find best score
       while( moves.GetNext(move) ) {
-#if defined(DEBUG_POS)
+#if defined(_DEBUG) && defined(DEBUG_POS)
          std::string moveString = move;
 #endif
          int nFlipped;
          CUndoInfo ui;
          int pass;
          MakeMoveAndPassBB(move, nFlipped, ui, pass);
+         CMove oneSuccessorMove;
+         int successors = CountSuccessors(book, oneSuccessorMove);
          const CBookData* bd = book.FindAnyReflection(bb);
          if( bd ) {
             int value = bd->Values().VMover(fBlackMove_, vContempt, pass);
@@ -2879,12 +2881,20 @@ namespace
             moveAndScores.push_back(std::make_pair(value, move));
             bestScore = (std::max)(bestScore, value);
          }
+         else if( successors!=0 ) {
+            variation.push_back(move);
+            variation.push_back(oneSuccessorMove);
+            variations.push_back(Variation(parentDelta, 0, variation));
+            variation.pop_back();
+            variation.pop_back();
+         }
+
          UndoMoveAndPassBB(move, nFlipped, ui, pass);
       }
 
       foreach(const MoveAndScore& moveAndScore, moveAndScores) {
          CMove move = moveAndScore.second;
-#if defined(DEBUG_POS)
+#if defined(_DEBUG) && defined(DEBUG_POS)
          std::string moveString = move;
 #endif
          int value = moveAndScore.first;
@@ -2921,7 +2931,7 @@ namespace
             }
             variation.push_back(move);
             ExtractLines(book, visitedBoards, variations, variation, bound, delta
-#if defined(DEBUG_POS)
+#if defined(_DEBUG) && defined(DEBUG_POS)
                ,
                currentLine + moveString,
                debugLine
@@ -2960,9 +2970,9 @@ void ExtractLines(const CBook& book, VariationCollection& variations, int bound)
    const CBookData* bd = book.FindAnyReflection(bb);
    VisitedBoards visitedBoards;
    ExtractLines(book, visitedBoards, variations, variation, bound, 0
-#if defined(DEBUG_POS)
+#if defined(_DEBUG) && defined(DEBUG_POS)
       , "D3",
-      "D3C3C4E3F4D6C6F5F3G4D2B4B5C2A4G3E2C1"
+      "D3C3C4E3F4D6C6F5F3B4F6G4D2F2E6E2C2C5E1F1H3B1G5G3H2D7B5C7A4A6"
 #endif
       );
    {
