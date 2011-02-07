@@ -2882,11 +2882,7 @@ namespace
             bestScore = (std::max)(bestScore, value);
          }
          else if( successors!=0 ) {
-            variation.push_back(move);
-            variation.push_back(oneSuccessorMove);
-            variations.push_back(Variation(parentDelta, 0, variation));
-            variation.pop_back();
-            variation.pop_back();
+            tempVariations.push_back(std::make_pair(parentDelta+1, move));
          }
 
          UndoMoveAndPassBB(move, nFlipped, ui, pass);
