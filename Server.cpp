@@ -432,8 +432,8 @@ int server(int server_port, CComputerDefaults cd1, int bounds, bool isS26)
 
    acceptor_ptr acceptor = acceptor::create(server_port);
 
-   // 4 days
-   while( keepRunning && totalTimer.elapsed()<4*24*3600 ) {
+   // 1 day
+   while( keepRunning && totalTimer.elapsed()<24*3600 ) {
       try {
          Log(std::cout) << "Waiting for client to connect on port " << server_port << "." << std::endl;
          tcp::iostream stream;
