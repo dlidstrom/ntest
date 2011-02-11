@@ -2172,12 +2172,10 @@ CValue ChildValue(int height, CValue alpha, CValue beta, int iPrune) {
          if (CheckAbortTime())
             return 0;
       }
-      else {
-         result=-NovelloSolve(-beta, -alpha, fBlackMove_);
-         QSSERT(result>-kInfinity);
-         TREEDEBUG_CALLSOLVER;
-         return result;
-      }
+      result=-NovelloSolve(-beta, -alpha, fBlackMove_);
+      QSSERT(result>-kInfinity);
+      TREEDEBUG_CALLSOLVER;
+      return result;
    }
 
    // Static value if no height
